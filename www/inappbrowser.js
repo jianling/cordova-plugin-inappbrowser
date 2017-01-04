@@ -66,6 +66,10 @@
             }
         },
 
+        getCookieValue: function (cookieUrl, cookieKey, cb) {
+            exec(cb, null, "InAppBrowser", "getCookieValue", [cookieUrl, cookieKey, !!cb]);
+        },
+
         executeScript: function(injectDetails, cb) {
             if (injectDetails.code) {
                 exec(cb, null, "InAppBrowser", "injectScriptCode", [injectDetails.code, !!cb]);
