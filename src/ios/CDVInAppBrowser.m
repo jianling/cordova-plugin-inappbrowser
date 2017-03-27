@@ -38,6 +38,8 @@
 {
     _previousStatusBarStyle = -1;
     _callbackIdPattern = nil;
+    _statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewController.view.bounds.size.width, 20)];
+    _statusBarView.backgroundColor=[UIColor colorWithRed:25.0 / 255.0 green:35.0 / 255.0 blue:60.0 / 255.0 alpha:1];
 }
 
 - (id)settingForKey:(NSString*)key
@@ -230,11 +232,12 @@
     nav.orientationDelegate = self.inAppBrowserViewController;
 
     self.inAppBrowserViewController.title = [self.options valueForKey:@"title"];
-    UIColor *titleColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:1];
+    UIColor *titleColor = [UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:1];
     [[UINavigationBar appearance] setTitleTextAttributes:@{
                                                            NSForegroundColorAttributeName: titleColor
                                                            }];
-    [nav.navigationBar setBarTintColor:[UIColor colorWithRed:248.0 / 255.0 green:248.0 / 255.0 blue:248.0 / 255.0 alpha:1]];
+    [nav.navigationBar setBarTintColor:[UIColor colorWithRed:25.0 / 255.0 green:35.0 / 255.0 blue:60.0 / 255.0 alpha:1]];
+    [[UINavigationBar appearance] setTranslucent:NO];
     self.inAppBrowserViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackIcon"] style:UIBarButtonItemStylePlain target:self.inAppBrowserViewController action:@selector(close)];
 
     __weak CDVInAppBrowser* weakSelf = self;
@@ -249,6 +252,9 @@
             [weakSelf.viewController.view.layer addAnimation:transition forKey:nil];
             [weakSelf.viewController addChildViewController:nav];
             [weakSelf.viewController.view addSubview:nav.view];
+            [weakSelf.viewController.view addSubview:_statusBarView];
+
+
 //            [weakSelf.viewController presentViewController:nav animated:YES completion:nil];
         }
     });
@@ -612,6 +618,7 @@
     self.currentURL = nil;
 
     if ((self.navigationDelegate != nil) && [self.navigationDelegate respondsToSelector:@selector(browserExit)]) {
+        [self.navigationDelegate.statusBarView removeFromSuperview];
         [self.navigationDelegate browserExit];
     }
 
