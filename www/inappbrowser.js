@@ -66,8 +66,8 @@
             }
         },
 
-        getCookieValue: function (cookieUrl, cookieKey, cb) {
-            exec(cb, null, "InAppBrowser", "getCookieValue", [cookieUrl, cookieKey, !!cb]);
+        getCookieValue: function (cookieUrl, cookieKey, successCallback, failureCallback) {
+            exec(successCallback, failureCallback, "InAppBrowser", "getCookieValue", []);
         },
 
         executeScript: function(injectDetails, cb) {
