@@ -239,6 +239,7 @@
     [nav.navigationBar setBarTintColor:[UIColor colorWithRed:25.0 / 255.0 green:35.0 / 255.0 blue:60.0 / 255.0 alpha:1]];
     [[UINavigationBar appearance] setTranslucent:NO];
     self.inAppBrowserViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackIcon"] style:UIBarButtonItemStylePlain target:self.inAppBrowserViewController action:@selector(close)];
+    [self.inAppBrowserViewController.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
 
     __weak CDVInAppBrowser* weakSelf = self;
 
