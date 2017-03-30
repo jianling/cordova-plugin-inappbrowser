@@ -38,8 +38,6 @@
 {
     _previousStatusBarStyle = -1;
     _callbackIdPattern = nil;
-    _statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewController.view.bounds.size.width, 20)];
-    _statusBarView.backgroundColor=[UIColor colorWithRed:25.0 / 255.0 green:35.0 / 255.0 blue:60.0 / 255.0 alpha:1];
 }
 
 - (id)settingForKey:(NSString*)key
@@ -253,7 +251,6 @@
             [weakSelf.viewController.view.layer addAnimation:transition forKey:nil];
             [weakSelf.viewController addChildViewController:nav];
             [weakSelf.viewController.view addSubview:nav.view];
-            [weakSelf.viewController.view addSubview:_statusBarView];
 
 
 //            [weakSelf.viewController presentViewController:nav animated:YES completion:nil];
@@ -619,7 +616,6 @@
     self.currentURL = nil;
 
     if ((self.navigationDelegate != nil) && [self.navigationDelegate respondsToSelector:@selector(browserExit)]) {
-        [self.navigationDelegate.statusBarView removeFromSuperview];
         [self.navigationDelegate browserExit];
     }
 
@@ -856,13 +852,6 @@
 - (void) viewDidLoad {
 
     CGRect frame = [UIApplication sharedApplication].statusBarFrame;
-
-    // simplified from: http://stackoverflow.com/a/25669695/219684
-
-    UIToolbar* bgToolbar = [[UIToolbar alloc] initWithFrame:[self invertFrameIfNeeded:frame]];
-    bgToolbar.barStyle = UIBarStyleDefault;
-    [bgToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    [self.view addSubview:bgToolbar];
 
     [super viewDidLoad];
 }
