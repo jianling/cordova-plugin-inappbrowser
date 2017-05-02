@@ -226,7 +226,7 @@
     _previousStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
 
     __block CDVInAppBrowserNavigationController* nav = [[CDVInAppBrowserNavigationController alloc]
-                                   initWithRootViewController:self.inAppBrowserViewController];
+                                                        initWithRootViewController:self.inAppBrowserViewController];
     nav.orientationDelegate = self.inAppBrowserViewController;
 
     self.inAppBrowserViewController.title = [self.options valueForKey:@"title"];
@@ -253,7 +253,7 @@
             [weakSelf.viewController.view addSubview:nav.view];
 
 
-//            [weakSelf.viewController presentViewController:nav animated:YES completion:nil];
+            //            [weakSelf.viewController presentViewController:nav animated:YES completion:nil];
         }
     });
 }
@@ -540,7 +540,7 @@
 
 // Prevent crashes on closing windows
 -(void)dealloc {
-   self.webView.delegate = nil;
+    self.webView.delegate = nil;
 }
 
 - (void)createViews
@@ -603,7 +603,7 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -623,11 +623,11 @@
 
     // Run later to avoid the "took a long time" log message.
     dispatch_async(dispatch_get_main_queue(), ^{
-//        if ([weakSelf respondsToSelector:@selector(presentingViewController)]) {
-//            [[weakSelf presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-//        } else {
-//            [[weakSelf parentViewController] dismissViewControllerAnimated:YES completion:nil];
-//        }
+        //        if ([weakSelf respondsToSelector:@selector(presentingViewController)]) {
+        //            [[weakSelf presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+        //        } else {
+        //            [[weakSelf parentViewController] dismissViewControllerAnimated:YES completion:nil];
+        //        }
 
         UIView * navView = weakSelf.parentViewController.view;
 
@@ -636,7 +636,7 @@
         CATransition *transition = [CATransition animation];
         transition.delegate = self;
         transition.duration = 0.2;
-//        transition.timingFunction = UIViewAnimationCurveEaseOut;
+        //        transition.timingFunction = UIViewAnimationCurveEaseOut;
         transition.type = kCATransitionPush;
         transition.subtype = kCATransitionFromLeft;
         [transition setValue:@"close" forKey:@"animType"];
@@ -738,6 +738,7 @@
     }
 
     [self.navigationDelegate webViewDidFinishLoad:theWebView];
+    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
 }
 
 - (void)webView:(UIWebView*)theWebView didFailLoadWithError:(NSError*)error
@@ -748,6 +749,7 @@
     [self.spinner stopAnimating];
 
     [self.navigationDelegate webView:theWebView didFailLoadWithError:error];
+    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
 }
 
 #pragma mark CDVScreenOrientationDelegate
